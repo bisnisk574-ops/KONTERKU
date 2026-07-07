@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Smart Billing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body { background: radial-gradient(circle at top right, #1e293b, #0f172a); min-height: 100vh; color: white; }
+    </style>
+</head>
+<body class="p-6">
+
+    <div class="max-w-2xl mx-auto">
+        <!-- Header Profil & Logout -->
+        <div class="glass p-6 rounded-[2rem] mb-8 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img id="displayIcon" class="w-12 h-12 rounded-xl object-cover bg-slate-700">
+                <div>
+                    <h1 class="font-bold">Selamat Datang</h1>
+                    <p class="text-sm text-blue-400 capitalize" id="roleText"></p>
+                </div>
+            </div>
+            <button onclick="logout()" class="text-xs bg-red-500/10 text-red-400 px-4 py-2 rounded-xl hover:bg-red-500/20">Keluar</button>
+        </div>
+
+        <!-- Grid Menu (Klik Ikon) -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            
+            <!-- Tombol Penjualan (Untuk semua) -->
+            <button class="glass p-6 rounded-[2rem] hover:bg-white/5 transition flex flex-col items-center gap-3">
+                <div class="p-4 bg-blue-500/20 rounded-2xl text-blue-400">🛒</div>
+                <span class="text-sm font-medium">Transaksi</span>
+            </button>
+
+            <!-- Tombol Stok (Untuk semua) -->
+            <button class="glass p-6 rounded-[2rem] hover:bg-white/5 transition flex flex-col items-center gap-3">
+                <div class="p-4 bg-emerald-500/20 rounded-2xl text-emerald-400">📦</div>
+                <span class="text-sm font-medium">Stok</span>
+            </button>
+
+            <!-- Tombol Laporan (Owner Only) -->
+            <button id="ownerMenu" class="glass p-6 rounded-[2rem] hover:bg-white/5 transition flex flex-col items-center gap-3 hidden">
+                <div class="p-4 bg-purple-500/20 rounded-2xl text-purple-400">📈</div>
+                <span class="text-sm font-medium">Laporan</span>
+            </button>
+
+        </div>
+    </div>
+
+    <script>
+        // Cek Login
+        const role = localStorage.getItem('role');
+        if (!role) window.location.href = "index.html";
+
+        // Tampilkan Role
+        document.getElementById('roleText').innerText = role;
+
+        // Tampilkan Custom Icon dari Login
+        const savedIcon = localStorage.getItem('appIcon');
+        if (savedIcon) document.getElementById('displayIcon').src = savedIcon;
+
+        // Tampilkan menu khusus Owner
+        if (role === 'owner') {
+            document.getElementById('ownerMenu').classList.remove('hidden');
+        }
+
+        function logout() {
+            localStorage.removeItem('role');
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
