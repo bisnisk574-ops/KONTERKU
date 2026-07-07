@@ -14,6 +14,12 @@
         .nav-link { color: #bdc3c7; margin: 10px 0; }
         .nav-link:hover, .nav-link.active { color: white; background: #34495e; border-radius: 5px; }
         .card-stats { border-left: 5px solid #3498db; }
+        .konten-halaman {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+        }
+        
     </style>
 </head>
 <!-- Firebase SDK -->
@@ -41,7 +47,29 @@
 
     // 4. Munculkan notifikasi di layar HP
     alert("Firebase Berhasil Terhubung!");
+<script>
+    function bukaHalaman(halaman) {
+        // 1. Daftar semua ID halaman yang ada
+        const daftarHalaman = ['dashboard', 'transaksi', 'tambah', 'stok', 'analisa', 'laporan'];
+
+        // 2. Sembunyikan semua halaman
+        daftarHalaman.forEach(id => {
+            document.getElementById('halaman-' + id).style.display = 'none';
+        });
+
+        // 3. Tampilkan hanya halaman yang diklik
+        document.getElementById('halaman-' + halaman).style.display = 'block';
+
+        // 4. Update warna tombol menu (opsional: agar terlihat mana yang aktif)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Menambahkan kelas 'active' ke menu yang diklik (menggunakan event)
+        event.target.classList.add('active');
+    }
 </script>
+    
 <body>
 
 <div class="d-flex">
@@ -49,21 +77,51 @@
     <nav id="sidebar" class="p-3">
         <h4 class="text-center py-3">POS Kounter</h4>
         <hr>
-        <ul class="nav flex-column">
-            <li class="nav-item"><a href="#" class="nav-link active">Dashboard</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Transaksi Baru</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Data Barang</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Riwayat Penjualan</a></li>
-        </ul>
-    </nav>
+ <ul class="nav flex-column">
+    <!-- Tambahkan 'onclick' untuk memanggil fungsi pindah halaman -->
+<ul class="nav flex-column">
+    <li class="nav-item"><a href="#" class="nav-link active" onclick="bukaHalaman('dashboard')">Dashboard</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" onclick="bukaHalaman('transaksi')">Transaksi Jual</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" onclick="bukaHalaman('tambah')">Tambah Barang</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" onclick="bukaHalaman('stok')">Stok Barang</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" onclick="bukaHalaman('analisa')">Analisa Penjualan</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" onclick="bukaHalaman('laporan')">Laporan Pendapatan</a></li>
+ </ul>
+   </nav>
 
-    <!-- Main Content -->
-    <div class="flex-grow-1">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm p-3">
-            <span class="navbar-brand mb-0 h1">Selamat Datang, Admin</span>
-        </nav>
+<!-- Main Content -->
+<div class="flex-grow-1">
+    
+    <!-- Dashboard (Muncul pertama kali) -->
+    <div id="halaman-dashboard" class="konten-halaman" style="display: block;">
+        <h3>Dashboard</h3>
+        <p>Isi statistik Anda di sini...</p>
+    </div>
 
-        <div class="container-fluid p-4">
+    <!-- Pastikan ada class="konten-halaman" di setiap div halaman -->
+    <div id="halaman-dashboard" class="konten-halaman" style="display: block;">
+    <h3>Dashboard</h3>
+    <!-- isi konten -->
+    </div>
+    
+    <!-- Halaman Transaksi -->
+    <div id="halaman-transaksi" class="konten-halaman" style="display: none;">
+        <h3>Transaksi Jual</h3>
+        <p>Isi form transaksi di sini...</p>
+    </div>
+
+    <!-- Halaman Tambah Barang -->
+    <div id="halaman-tambah" class="konten-halaman" style="display: none;">
+        <h3>Tambah Barang Baru</h3>
+        <!-- Form input Anda -->
+    </div>
+
+    <!-- Tambahkan div lainnya (stok, analisa, laporan) dengan ID yang sesuai -->
+    <div id="halaman-stok" class="konten-halaman" style="display: none;"><h3>Stok Barang</h3></div>
+    <div id="halaman-analisa" class="konten-halaman" style="display: none;"><h3>Analisa Penjualan</h3></div>
+    <div id="halaman-laporan" class="konten-halaman" style="display: none;"><h3>Laporan Pendapatan</h3></div>
+</div>
+
             <!-- Stats -->
             <div class="row">
                 <div class="col-md-4">
