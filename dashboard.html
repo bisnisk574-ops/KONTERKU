@@ -2,98 +2,89 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - Smart Billing</title>
+    <title>Smart Billing - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        body { background: radial-gradient(circle at top right, #1e293b, #0f172a); min-height: 100vh; color: white; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body { background: radial-gradient(circle at top, #1e293b, #0f172a); min-height: 100vh; }
     </style>
 </head>
-<body class="p-6">
+<body class="flex flex-col items-center justify-center p-6 text-white">
 
-    <div class="max-w-2xl mx-auto">
-        <!-- Header Profil & Logout -->
-        <div class="glass p-6 rounded-[2rem] mb-8 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img id="displayIcon" class="w-12 h-12 rounded-xl object-cover bg-slate-700">
-                <div>
-                    <h1 class="font-bold">Selamat Datang</h1>
-                    <p class="text-sm text-blue-400 capitalize" id="roleText"></p>
-                </div>
-            </div>
-            <button onclick="logout()" class="text-xs bg-red-500/10 text-red-400 px-4 py-2 rounded-xl hover:bg-red-500/20">Keluar</button>
-        </div>
-
-        <!-- Grid Menu (Klik Ikon) -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            
-            <!-- Tombol Penjualan (Untuk semua) -->
-            <button class="glass p-6 rounded-[2rem] hover:bg-white/5 transition flex flex-col items-center gap-3">
-                <div class="p-4 bg-blue-500/20 rounded-2xl text-blue-400">🛒</div>
-                <span class="text-sm font-medium">Transaksi</span>
-            </button>
-
-            <!-- Tombol Stok (Untuk semua) -->
-            <button class="glass p-6 rounded-[2rem] hover:bg-white/5 transition flex flex-col items-center gap-3">
-                <div class="p-4 bg-emerald-500/20 rounded-2xl text-emerald-400">📦</div>
-                <span class="text-sm font-medium">Stok</span>
-            </button>
-
-            <!-- Tombol Laporan (Owner Only) -->
-            <button id="ownerMenu" class="glass p-6 rounded-[2rem] hover:bg-white/5 transition flex flex-col items-center gap-3 hidden">
-                <div class="p-4 bg-purple-500/20 rounded-2xl text-purple-400">📈</div>
-                <span class="text-sm font-medium">Laporan</span>
-            </button>
-
-        </div>
+     <!-- Area Jam & Tanggal -->
+    <div id="liveClock" class="mt-2 text-gray-400 text-sm font-light tracking-wide">
+      <span id="dateDisplay"></span> • <span id="timeDisplay" class="font-mono text-blue-400"></span>
     </div>
-
-    <script>
-        // Cek Login
-        const role = localStorage.getItem('role');
-        if (!role) window.location.href = "index.html";
-
-        // Tampilkan Role
-        document.getElementById('roleText').innerText = role;
-
-        // Tampilkan Custom Icon dari Login
-        const savedIcon = localStorage.getItem('appIcon');
-        if (savedIcon) document.getElementById('displayIcon').src = savedIcon;
-
-        // Tampilkan menu khusus Owner
-        if (role === 'owner') {
-            document.getElementById('ownerMenu').classList.remove('hidden');
-        // Fungsi Buka/Tutup Modal
-        function toggleModal(show) {
-        const modal = document.getElementById('modalTransaksi');
-        show ? modal.classList.remove('hidden') : modal.classList.add('hidden');
-        }
-
-        // Hubungkan tombol Transaksi ke Modal
-        // Pastikan tombol di grid menu Anda memiliki onclick="toggleModal(true)"
-            
-        }
-
-        function logout() {
-            localStorage.removeItem('role');
-            window.location.href = "index.html";
-        }
-    </script>
-<!-- Modal Transaksi -->
-<div id="modalTransaksi" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
-    <div class="glass p-8 rounded-[2rem] w-80 shadow-2xl animate-in fade-in zoom-in duration-300">
-        <h2 class="text-xl font-bold mb-6">Tambah Transaksi</h2>
-        <form id="formTransaksi" class="space-y-4">
-            <input type="text" id="namaProduk" placeholder="Nama Produk" required class="w-full p-3 rounded-xl bg-slate-800/50 border border-slate-700 text-white focus:outline-none">
-            <input type="number" id="hargaJual" placeholder="Harga Jual" required class="w-full p-3 rounded-xl bg-slate-800/50 border border-slate-700 text-white focus:outline-none">
-            
-            <div class="flex gap-3 mt-6">
-                <button type="button" onclick="toggleModal(false)" class="w-1/2 p-3 bg-slate-700 rounded-xl">Batal</button>
-                <button type="submit" class="w-1/2 p-3 bg-blue-600 rounded-xl hover:bg-blue-500">Simpan</button>
-            </div>
-        </form>
-    </div>
-</div>
     
+     <!-- 1. Logo Besar (Focal Point) -->
+    <div class="mb-12 text-center">
+        <div id="logoContainer" class="w-32 h-32 mx-auto rounded-3xl shadow-2xl flex items-center justify-center overflow-hidden mb-4 border border-white/10">
+            <img id="displayLogo" src="" class="w-full h-full object-cover">
+        </div>
+        <h1 class="text-2xl font-bold tracking-wider">KONTER PINTAR</h1>
+    </div>
+
+    <!-- 2. Navigasi Ikon (Klik Untuk Masuk) -->
+    <div class="grid grid-cols-2 gap-6 w-full max-w-sm">
+        
+        <!-- Tombol Transaksi -->
+        <a href="transaksi.html" class="glass p-8 rounded-[2rem] text-center hover:scale-105 transition-all group">
+            <div class="text-4xl mb-3">🛒</div>
+            <p class="font-bold text-sm">Transaksi</p>
+        </a>
+
+        <!-- Tombol Stok -->
+        <a href="stok.html" class="glass p-8 rounded-[2rem] text-center hover:scale-105 transition-all group">
+            <div class="text-4xl mb-3">📦</div>
+            <p class="font-bold text-sm">Stok Barang</p>
+        </a>
+
+        <!-- Tombol Laporan (Role Based) -->
+        <a href="laporan.html" id="laporanMenu" class="glass p-8 rounded-[2rem] text-center hover:scale-105 transition-all group col-span-2 hidden">
+            <div class="text-4xl mb-3">📈</div>
+            <p class="font-bold text-sm">Laporan Keuangan</p>
+        </a>
+
+    </div>
+
+    <!-- Script Keamanan & Logika -->
+    <script src="assets/js/auth.js"></script>
+    <script>
+        // Tampilkan Logo
+        const savedIcon = localStorage.getItem('appIcon');
+        if (savedIcon) {
+            document.getElementById('displayLogo').src = savedIcon;
+        } else {
+            // Default jika belum ada logo
+            document.getElementById('displayLogo').src = 'https://ui-avatars.com/api/?name=KP&background=random';
+        }
+
+        // Tampilkan Menu Laporan hanya untuk Owner
+        if (localStorage.getItem('role') === 'owner') {
+            document.getElementById('laporanMenu').classList.remove('hidden');
+        }
+    <script>
+    function updateClock() {
+        const now = new Date();
+        
+        // Format Tanggal (Contoh: Selasa, 7 Juli 2026)
+        const dateOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('dateDisplay').innerText = now.toLocaleDateString('id-ID', dateOptions);
+        
+        // Format Waktu (Contoh: 14:05:30)
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        document.getElementById('timeDisplay').innerText = now.toLocaleTimeString('id-ID', timeOptions);
+    }
+
+    // Jalankan setiap 1 detik (1000 milidetik)
+    setInterval(updateClock, 1000);
+    
+    // Jalankan sekali saat halaman dimuat agar tidak menunggu 1 detik
+    updateClock();
+</script>
+    
+    
+    </script>
 </body>
 </html>
