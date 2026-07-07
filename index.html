@@ -61,10 +61,20 @@
 
         // Logika Login
         document.getElementById('loginForm').onsubmit = (e) => {
-            e.preventDefault();
-            // Simulasi Login (Arahkan ke Dashboard)
-            window.location.href = "dashboard.html";
-        };
+    e.preventDefault();
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+
+    if (user === 'owner' && pass === '99owner') {
+        localStorage.setItem('role', 'owner');
+        window.location.href = "dashboard.html";
+    } else if (user === 'admin' && pass === 'admin') {
+        localStorage.setItem('role', 'admin');
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Username/Password salah!");
+    }
+};
     </script>
 </body>
 </html>
